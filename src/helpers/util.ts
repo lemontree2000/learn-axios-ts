@@ -7,3 +7,7 @@ export function isDate(val: any): val is Date {
 export function isObject(val: any): val is object {
   return val !== null && typeof val === 'object'
 }
+
+export function isPlaniObject(val: any): val is Object {
+  return toString.call(val) === '[object Object]'
+}
