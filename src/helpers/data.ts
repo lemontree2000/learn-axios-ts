@@ -15,5 +15,5 @@ export function transfromResponse(data: any): any {
       // do nothing
     }
   }
-  return
+  return data
 }
