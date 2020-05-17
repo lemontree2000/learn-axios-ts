@@ -106,6 +106,10 @@ router.post('/extend/user', (req, res) => {
   })
 })
 
+router.get('/interceptor/get', (req, res) => {
+  res.end('hello')
+})
+
 
 
 app.use(router)
