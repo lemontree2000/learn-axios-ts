@@ -1,19 +1,15 @@
 import axios from '../../src/index'
 
 axios.interceptors.request.use(config => {
-  console.log(config.headers.test)
   config.headers.test += '1'
   return config
 })
 axios.interceptors.request.use(config => {
-  console.log(config.headers.test)
 
   config.headers.test += '2'
   return config
 })
 axios.interceptors.request.use(config => {
-  console.log(config.headers.test)
-
   config.headers.test += '3'
   return config
 })

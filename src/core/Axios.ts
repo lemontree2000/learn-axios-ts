@@ -37,7 +37,6 @@ export default class Axios {
     } else {
       config = url
     }
-    console.log(config)
     const chain: PromiseChain<any>[] = [
       {
         resolved: dispatchRequest,
@@ -46,6 +45,10 @@ export default class Axios {
     ]
 
     this.interceptors.request.forEach(interceptor => {
+      chain.unshift(interceptor)
+    })
+
+    this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
     let promise = Promise.resolve(config)
