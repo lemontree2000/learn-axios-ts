@@ -111,7 +111,7 @@ router.get('/interceptor/get', (req, res) => {
 })
 
 router.post('/config/post', (req, res) => {
-  res.end('hello')
+  res.json(req.body)
 })
 
 
