@@ -110,6 +110,10 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello')
 })
 
+router.post('/config/post', (req, res) => {
+  res.end('hello')
+})
+
 
 
 app.use(router)

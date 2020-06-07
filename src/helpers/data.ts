@@ -1,7 +1,7 @@
-import { isPlaniObject } from './util'
+import { isPlainObject } from './util'
 
 export function transformRequest(data: any): any {
-  if (isPlaniObject(data)) {
+  if (isPlainObject(data)) {
     return JSON.stringify(data)
   }
   return data
