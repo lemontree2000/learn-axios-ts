@@ -8,7 +8,7 @@ const WebpackConfig = require('./webpack.config')
 const app = express()
 const router = express.Router()
 const compiler = webpack(WebpackConfig)
-
+require('./server-more')
 app.use(
   webpackDevMiddleware(compiler, {
     publicPath: '/__build__/',
@@ -126,6 +126,9 @@ router.get('/cancel/get', (req, res) => {
   }, 1000);
 })
 
+router.get('/more/get', (req, res) => {
+  res.json(req.cookies)
+})
 app.use(router)
 
 const port = process.env.PORT || 8080
