@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParse = require('body-parser')
 const webpack = require('webpack')
+const path = require('path')
+const multiPart =  require('connect-multiparty')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
@@ -21,7 +23,15 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler))
 
-app.use(express.static(__dirname))
+app.use(multiPart({
+  uploadDir: path.resolve(__dirname, 'upload-file')
+}))
+
+app.use(express.static(__dirname, {
+  setHeaders(res) {
+    res.cookie('XSRF-TOKEN-D', '1234abc')
+  }
+}))
 
 app.use(bodyParse.json())
 app.use(bodyParse.urlencoded({ extended: true }))
@@ -129,6 +139,13 @@ router.get('/cancel/get', (req, res) => {
 router.get('/more/get', (req, res) => {
   res.json(req.cookies)
 })
+
+router.post('/more/upload', (req, res) => {
+  console.log(req)
+  res.json('上传成功')
+})
+
+
 app.use(router)
 
 const port = process.env.PORT || 8080
