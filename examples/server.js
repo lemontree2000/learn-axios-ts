@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParse = require('body-parser')
 const webpack = require('webpack')
 const path = require('path')
-const multiPart =  require('connect-multiparty')
+const atob = require('atob')
+const multiPart = require('connect-multiparty')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
@@ -23,15 +24,19 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler))
 
-app.use(multiPart({
-  uploadDir: path.resolve(__dirname, 'upload-file')
-}))
+app.use(
+  multiPart({
+    uploadDir: path.resolve(__dirname, 'upload-file')
+  })
+)
 
-app.use(express.static(__dirname, {
-  setHeaders(res) {
-    res.cookie('XSRF-TOKEN-D', '1234abc')
-  }
-}))
+app.use(
+  express.static(__dirname, {
+    setHeaders(res) {
+      res.cookie('XSRF-TOKEN-D', '1234abc')
+    }
+  })
+)
 
 app.use(bodyParse.json())
 app.use(bodyParse.urlencoded({ extended: true }))
@@ -42,7 +47,7 @@ router.get('/simple/get', (req, res) => {
   })
 })
 
-router.get('/base/get', function(req, res)  {
+router.get('/base/get', function(req, res) {
   res.json(req.query)
 })
 
@@ -52,7 +57,7 @@ router.post('/base/post', (req, res) => {
 
 router.post('/base/buffer', (req, res) => {
   let msg = []
-  req.on('data', (chunk) => {
+  req.on('data', chunk => {
     if (chunk) {
       msg.push(chunk)
     }
@@ -63,8 +68,8 @@ router.post('/base/buffer', (req, res) => {
   })
 })
 
-router.get('/error/get', (req,res ) => {
-  if( Math.random() * 10 > 5) {
+router.get('/error/get', (req, res) => {
+  if (Math.random() * 10 > 5) {
     res.json({
       success: true
     })
@@ -80,7 +85,7 @@ router.get('/error/timeout', (req, res) => {
       success: true,
       msg: '成功'
     })
-  }, 5000);
+  }, 5000)
 })
 
 router.get('/extend/get', (req, res) => {
@@ -108,11 +113,11 @@ router.patch('/extend/patch', (req, res) => {
 router.post('/extend/user', (req, res) => {
   res.json({
     code: 200,
-      result: {
-        name: 'edward',
-        age: 19
-      },
-      message: 'success',
+    result: {
+      name: 'edward',
+      age: 19
+    },
+    message: 'success'
   })
 })
 
@@ -126,14 +131,14 @@ router.post('/config/post', (req, res) => {
 
 router.post('/cancel/post', (req, res) => {
   setTimeout(() => {
-    res.json({test: 'hello post'})
-  }, 1000);
+    res.json({ test: 'hello post' })
+  }, 1000)
 })
 
 router.get('/cancel/get', (req, res) => {
   setTimeout(() => {
-    res.json({test: 'hello get'})
-  }, 1000);
+    res.json({ test: 'hello get' })
+  }, 1000)
 })
 
 router.get('/more/get', (req, res) => {
@@ -145,6 +150,31 @@ router.post('/more/upload', (req, res) => {
   res.json('上传成功')
 })
 
+router.post('/more/auth', (req, res) => {
+  const auth = req.headers.authorization
+  const [type, credentials] = auth.split(' ')
+  console.log(atob(credentials))
+  const [username, password] = atob(credentials).split(':')
+  console.log(typeof password)
+  if (type === 'Basic' && username === 'Edward' && password === '123') {
+    res.json(req.body)
+  } else {
+    res.status(401)
+    res.end('UnAuthorization')
+  }
+})
+
+router.get('/more/304', function(req, res) {
+  res.status(304)
+  res.end()
+})
+
+router.get('/more/A', function(req, res) {
+  res.end('A')
+})
+router.get('/more/B', function(req, res) {
+  res.end('Bß')
+})
 
 app.use(router)
 
