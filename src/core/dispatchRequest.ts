@@ -3,14 +3,22 @@ import xhr from './xhr'
 import { buildURL, isAbsoluteURL, combineURL } from '../helpers/url'
 import { flattenHeaders } from '../helpers/headers'
 import transform from './transform'
+import e from 'express'
 
 function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   // code ..
   throwIfCancellationRequested(config)
   processConfig(config)
-  return xhr(config).then(res => {
-    return transformReponseData(res)
-  })
+  return xhr(config)
+    .then(res => {
+      return transformReponseData(res)
+    })
+    .catch(reason => {
+      if (reason && reason.response) {
+        reason.response = transformReponseData(reason.response)
+      }
+      return Promise.reject(reason)
+    })
 }
 
 function processConfig(config: AxiosRequestConfig): void {
