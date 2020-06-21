@@ -1,4 +1,4 @@
-import { transformRequest, transfromResponse } from '../../src/helpers/data'
+import { transformRequest, transformResponse } from '../../src/helpers/data'
 
 describe('helper:data', () => {
   describe('transformRequest', () => {
@@ -16,19 +16,19 @@ describe('helper:data', () => {
   describe('transformResponse', () => {
     test('should transform response data to Object if data is a JSON string', () => {
       const b = '{"c":"ok"}'
-      expect(transfromResponse(b)).toEqual({
+      expect(transformResponse(b)).toEqual({
         c: 'ok'
       })
     })
 
     test('should do nothing if data is a string but not a JSON string', () => {
       const a = '{b: 1}'
-      expect(transfromResponse(a)).toBe(a)
+      expect(transformResponse(a)).toBe(a)
     })
 
     test('should do nothing if data is not a string', () => {
       const b = { c: '1' }
-      expect(transfromResponse(b)).toBe(b)
+      expect(transformResponse(b)).toBe(b)
     })
   })
 })

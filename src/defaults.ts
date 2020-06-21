@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from './types'
 import { processHeaders } from './helpers/headers'
-import { transformRequest, transfromResponse } from './helpers/data'
+import { transformRequest, transformResponse } from './helpers/data'
 
 const defaults: AxiosRequestConfig = {
   method: 'get',
@@ -21,7 +21,7 @@ const defaults: AxiosRequestConfig = {
   ],
   transformResponse: [
     function(data: any): any {
-      return transfromResponse(data)
+      return transformResponse(data)
     }
   ],
 
@@ -36,9 +36,9 @@ methodsNoData.forEach(method => {
   defaults.headers[method] = {}
 })
 
-const methodsWidthData = ['post', 'put', 'patch']
+const methodsWithData = ['post', 'put', 'patch']
 
-methodsWidthData.forEach(method => {
+methodsWithData.forEach(method => {
   defaults.headers[method] = {
     'Content-Type': 'application/x-www-form-urlencoded'
   }

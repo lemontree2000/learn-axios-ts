@@ -114,7 +114,7 @@ describe('requests', () => {
       expect(resolveSpy).not.toHaveBeenCalled()
       expect(rejectSpy).toHaveBeenCalled()
       expect(reason instanceof Error).toBeTruthy()
-      expect((reason as AxiosError).message).toBe('Request failed width status code 500')
+      expect((reason as AxiosError).message).toBe('Request failed with status code 500')
       expect((reason as AxiosError).response!.status).toBe(500)
 
       done()
