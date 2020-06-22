@@ -1,11 +1,11 @@
 {
-  "name": "learn-axios-ts",
+  "name": "axios-typescript",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/learn-axios-ts.umd.js",
-  "module": "dist/learn-axios-ts.es5.js",
-  "typings": "dist/types/learn-axios-ts.d.ts",
+  "main": "dist/axios.umd.js",
+  "module": "dist/axios.es5.js",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
