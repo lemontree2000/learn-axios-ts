@@ -1,5 +1,5 @@
 {
-  "name": "axios-typescript",
+  "name": "axios-ts-lib",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
@@ -33,7 +33,9 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "prepublish": "npm run test:prod && npm run build",
+    "publish": "sh release.sh"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -134,7 +136,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-loader": "^3.5.4",
-    "typedoc": "^0.12.0",
+    "typedoc": "^0.17.7",
     "typescript": "^3.4.5",
     "webpack": "^4.28.4",
     "webpack-dev-middleware": "^3.5.0",
